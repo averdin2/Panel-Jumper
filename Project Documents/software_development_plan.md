@@ -123,7 +123,7 @@ The Panel Jumper project workload has been divided into four main tasks that nee
 This section provides schedule information for the Panel Jumper project. These details will be broken down in the following sections described bellow.
 ### 4.4.1 PERT Chart
 
-![PERT Chart](./Project Documents/images/PERT.png)
+![PERT Chart](./images/PERT.png)
 
 ### 4.4.2 Task/Resource Table
 | Deliverable (Task) | Resource (Hardware/Software) |
