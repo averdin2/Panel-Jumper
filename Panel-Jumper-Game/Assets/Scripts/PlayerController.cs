@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
@@ -8,6 +9,13 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb;
     public float maxSpeed = 10f;
     private bool facingRight = true;
+
+    // Score Variables
+    public int playerScore = 0;
+    private int highScore;
+    public Text scoreText;
+    public Text highScoreText;
+    private int scoreMulti = 100;
 
     // Grounded variables
     bool grounded = false;
@@ -32,6 +40,11 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        // Initialize scoring
+        highScore = PlayerPrefs.GetInt("highScore", highScore);
+        scoreText.text = "Score: " + playerScore.ToString();
+        highScoreText.text = "High Score: " + highScore.ToString();
+        // Initialize player rigid body
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -111,7 +124,29 @@ public class PlayerController : MonoBehaviour {
         {
             rb.AddForce(new Vector2(0, jumpForce));
         }
+
+        // Keeping track of the score
+        if ((int)(rb.transform.position.y * scoreMulti) > playerScore)
+        {
+            playerScore = (int)(rb.transform.position.y * scoreMulti);
+            scoreText.text = "Score: " + playerScore.ToString();
+        }
+
+        if (playerScore > highScore)
+        {
+            highScore = playerScore;
+            highScoreText.text = "High Score: " + highScore.ToString();
+            PlayerPrefs.SetInt("highScore", highScore);
+        }
+
+        // To delete all saved values
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
+
+
 
     // Changes character direction
     void Flip()

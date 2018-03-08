@@ -14,10 +14,10 @@ TagManager:
   - 
   - 
   - Player
-  - 
-  - 
-  - 
-  - 
+  - Panel
+  - Side
+  - Ground
+  - GameOver
   - 
   - 
   - 
