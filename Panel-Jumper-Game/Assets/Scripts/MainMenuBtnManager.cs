@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuBtnManager : MonoBehaviour {
 
-    public string newGameLevel;
-    public string optionsMenu;
+    public string scene;
 
     private void Awake()
     {
@@ -24,7 +23,7 @@ public class MainMenuBtnManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            NewGameBtn("Main_Game");
+            SceneChange("Main_Game");
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -32,23 +31,18 @@ public class MainMenuBtnManager : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            OptionsBtn("Options_Menu");
+            SceneChange("Options_Menu");
         }
 
     }
 
-    public void NewGameBtn(string newGameLevel)
+    public void SceneChange(string scene)
     {
-        SceneManager.LoadScene(newGameLevel);
+        SceneManager.LoadScene(scene);
     }
 
     public void ExitGameBtn()
     {
         Application.Quit();
-    }
-
-    public void OptionsBtn(string optionsMenu)
-    {
-        SceneManager.LoadScene(optionsMenu);
     }
 }

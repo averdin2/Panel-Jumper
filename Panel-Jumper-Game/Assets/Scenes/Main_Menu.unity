@@ -433,7 +433,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 967995993}
-        m_MethodName: OptionsBtn
+        m_MethodName: SceneChange
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -666,8 +666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3c3a362404f21498a8609f8333f0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newGameLevel: Main_Game
-  optionsMenu: 
+  scene: 
 --- !u!1 &999833433
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +744,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 967995993}
-        m_MethodName: NewGameBtn
+        m_MethodName: SceneChange
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

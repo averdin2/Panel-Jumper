@@ -4,20 +4,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class OptionsBtnManager : MonoBehaviour {
+    // Controls all the buttons within the options menu
 
-    public string mainMenu;
+    public string scene;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            MainMenuBtn("Main_Menu");
+            SceneChange("Main_Menu");
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SceneChange("Main_Game");
         }
     }
 
-    public void MainMenuBtn(string mainMenu)
+    // Called to change scene based on what value is contained in 'string'
+    public void SceneChange(string scene)
     {
-        SceneManager.LoadScene(mainMenu);
+        SceneManager.LoadScene(scene);
     }
 }
