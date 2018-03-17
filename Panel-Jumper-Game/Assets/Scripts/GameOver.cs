@@ -8,10 +8,13 @@ public class GameOver : MonoBehaviour {
     //public Text finalScoreText;
     public Text gameOverTxt;
     public GameObject gameOverMenu;
+    public GameObject leaderboards;
+
 
     // Use this for initialization
     void Start()
     {
+        leaderboards.SetActive(false);
         gameOverMenu.SetActive(false);
         gameOverTxt.text = "";
     }

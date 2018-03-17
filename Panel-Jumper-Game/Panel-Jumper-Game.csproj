@@ -81,6 +81,8 @@
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\GameOver.cs" />
     <Compile Include="Assets\Scripts\GameOverBtnManager.cs" />
+    <Compile Include="Assets\Scripts\Leaderboard.cs" />
+    <Compile Include="Assets\Scripts\LeaderboardList.cs" />
     <Compile Include="Assets\Scripts\LeftSide.cs" />
     <Compile Include="Assets\Scripts\MainMenuBtnManager.cs" />
     <Compile Include="Assets\Scripts\OptionsBtnManager.cs" />
