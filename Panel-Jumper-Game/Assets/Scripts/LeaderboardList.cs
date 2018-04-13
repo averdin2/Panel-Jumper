@@ -10,19 +10,26 @@ public class LeaderboardList : MonoBehaviour {
     public GameObject leaderboardEntryPrefab;
 
     Leaderboard leaderboard;
+    PlayerController player;
+
+    public InputField playerName;
+
 
     int lastScoreUpdate;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
         leaderboard = GameObject.FindObjectOfType<Leaderboard>();
+        player = GameObject.FindObjectOfType<PlayerController>();
+
 
         lastScoreUpdate = leaderboard.GetNewScoreUpdate();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
         // optimization for updating leaderboard list that checks if an update is needed as determined by Leaderboard methods
         if(leaderboard.GetNewScoreUpdate() == lastScoreUpdate)
         {
@@ -47,5 +54,13 @@ public class LeaderboardList : MonoBehaviour {
             go.transform.Find("PlayerScore").GetComponent<Text>().text = leaderboard.GetScore(name).ToString();
 
         }
+    }
+
+    public void AddScoreEntry()
+    {
+        //leaderboard.setactive
+        //Debug.Log(player.GetPlayerScore());
+        leaderboard.SetScore(playerName.text, player.GetPlayerScore());
+
     }
 }

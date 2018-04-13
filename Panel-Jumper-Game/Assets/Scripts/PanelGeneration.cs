@@ -6,7 +6,13 @@ using UnityEngine;
 public class PanelGeneration : MonoBehaviour
 {
 
-    public GameObject panel;
+    public GameObject defaultPanel;
+    public GameObject boostPanel;
+    public GameObject badPanel;
+    public GameObject ultraPanel;
+
+    public GameObject[] panelSelector;
+
     public Transform genPoint;
     public float distanceBtwn;
 
@@ -20,13 +26,21 @@ public class PanelGeneration : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Creating array of panels to be selected at random
+        panelSelector = new GameObject[4];
+        panelSelector[0] = defaultPanel;
+        panelSelector[1] = boostPanel;
+        panelSelector[2] = badPanel;
+        panelSelector[3] = ultraPanel;
+
 
         // Creates space so panels cannot be overlapped vertically
-        panelSpace = panel.GetComponent<BoxCollider2D>().size.y;
+        //panelSpace = defaultPanel.GetComponent<BoxCollider2D>().size.y;
+        panelSpace = 0.75f;
 
         // Creates an initial randomly generated panel
         transform.position = new Vector3(Random.Range(-3.21f, 3.21f), transform.position.y, transform.position.z);
-        Instantiate(panel, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+        Instantiate(defaultPanel, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
     }
 
     // Update is called once per frame
@@ -35,6 +49,8 @@ public class PanelGeneration : MonoBehaviour
 
         if (transform.position.y < genPoint.position.y)
         {
+            // this is supposed to be for balancing the distance between panels as the game gets harder but is broken at its current state
+            // it used to work so be careful changing it
             PlayerController playerController = GameObject.Find("Character").GetComponent<PlayerController>();
             if (playerController.playerScore > tempPlayerScore)
             {
@@ -45,11 +61,12 @@ public class PanelGeneration : MonoBehaviour
                 }
                 else
                 {
-                    distanceBtwn++;
+                    distanceBtwn = 0;
                 }
             }
+            int n = Random.Range(0, 4);
             transform.position = new Vector3(Random.Range(-3.21f, 3.21f), transform.position.y + panelSpace + distanceBtwn, transform.position.z);
-            Instantiate(panel, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+            Instantiate(panelSelector[n], transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
         }
     }
 }

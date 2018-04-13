@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOverBtnManager : MonoBehaviour {
     // Controls all the buttons within the Game Over menu
 
     public string scene;
     public GameObject leaderboards;
+
+    Leaderboard scores;
+
+
+    private void Start()
+    {
+        scores = GameObject.FindObjectOfType<Leaderboard>();
+    }
 
 
     // Update is called once per frame
@@ -39,4 +48,5 @@ public class GameOverBtnManager : MonoBehaviour {
     {
         leaderboards.SetActive(!leaderboards.activeSelf);
     }
+
 }

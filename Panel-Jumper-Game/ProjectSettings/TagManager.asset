@@ -14,14 +14,14 @@ TagManager:
   - 
   - 
   - Player
-  - Panel
+  - 
   - Side
   - Ground
   - GameOver
-  - 
-  - 
-  - 
-  - 
+  - defaultPanel
+  - boostPanel
+  - badPanel
+  - ultraPanel
   - 
   - 
   - 

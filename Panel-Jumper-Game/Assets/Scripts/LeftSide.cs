@@ -8,7 +8,6 @@ public class LeftSide : MonoBehaviour {
     {
         if (collision.tag == "Player")
         {
-            Debug.Log("Collision");
             collision.gameObject.transform.position = new Vector2(3.2f, collision.gameObject.transform.position.y);
         }
     }

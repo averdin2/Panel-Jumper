@@ -7,23 +7,22 @@ public class Leaderboard : MonoBehaviour {
 
     // Leaderboard that stores player inputed names and high scores in a dictionary
 
+    public GameObject leaderboards;
+
+
     Dictionary<string, int> playerScores;
 
     int newScoreUpdate = 0;
+    int topFive = 0;
 
-    void Start()
+    void Start ()
     {
 
-        SetScore("Alex", 2000);
-        SetScore("Catherine", 1000);
-        SetScore("Daniel", 3000);
-        SetScore("Joe", 5000);
-        SetScore("Chris", 2000);
-        SetScore("Mitch", 300);
-        SetScore("Nick", 2500);
-        SetScore("Joeshmoe", 10000);
-        SetScore("Joeshmoe", 9999);
-        //SetScore("Alex", 200000);
+        //Sets the top five scores
+        for (int i = 0; i < 5; i++)
+        {
+            SetScore(PlayerPrefs.GetString("pname_" + i, ""), PlayerPrefs.GetInt("pscore_" + i, 0));
+        }
 
     }
 
@@ -36,6 +35,7 @@ public class Leaderboard : MonoBehaviour {
         }
         playerScores = new Dictionary<string, int>();
     }
+
 
     // Returns the score value given a playerName
     public int GetScore(string playerName)
@@ -56,14 +56,18 @@ public class Leaderboard : MonoBehaviour {
     {
         Init();
 
+        if (playerName == "" || newScore == 0)
+        {
+            return;
+        }
+
         if (playerScores.ContainsKey(playerName) == false && playerScores.Count >= 5)
         {
             string smallestScore = playerScores.Keys.OrderByDescending(name => GetScore(name)).Last();
             if(newScore > GetScore(smallestScore))
             {
                 playerScores.Remove(smallestScore);
-                newScoreUpdate++;
-                playerScores[playerName] = newScore;
+                SaveScore(playerName, newScore);
             }
             return;
         }
@@ -71,16 +75,18 @@ public class Leaderboard : MonoBehaviour {
         {
             if(newScore > GetScore(playerName))
             {
-                newScoreUpdate++;
-                playerScores[playerName] = newScore;
+                SaveScore(playerName, newScore);
                 return;
             }
             return;
         }
 
-        newScoreUpdate++;
+        SaveScore(playerName, newScore);
 
-        playerScores[playerName] = newScore;
+        //newScoreUpdate++;
+        //playerScores[playerName] = newScore;
+        //PlayerPrefs.SetString("pname_" + 1, playerName);
+        //PlayerPrefs.SetInt("pscore_" + 1, newScore);
     }
 
     public string[] GetPlayerNames()
@@ -95,4 +101,27 @@ public class Leaderboard : MonoBehaviour {
     {
         return newScoreUpdate;
     }
+
+    void SaveScore(string name, int score)
+    {
+        if (topFive < 5)
+        {
+            
+            newScoreUpdate++;
+            playerScores[name] = score;
+            PlayerPrefs.SetString("pname_" + topFive, name);
+            PlayerPrefs.SetInt("pscore_" + topFive, score);
+            topFive++;
+        }
+        else
+        {
+            newScoreUpdate++;
+            playerScores[name] = score;
+            PlayerPrefs.SetString("pname_" + topFive, name);
+            PlayerPrefs.SetInt("pscore_" + topFive, score);
+        }
+       
+    }
+
+    
 }

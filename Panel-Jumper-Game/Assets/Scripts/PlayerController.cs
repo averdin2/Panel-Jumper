@@ -24,18 +24,25 @@ public class PlayerController : MonoBehaviour {
     public LayerMask whatIsGround;
 
     // Panel variables
-    bool onPanel = false;
+    bool onDefaultPanel = false;
+    bool onBoostPanel = false;
+    bool onBadPanel = false;
+    bool onUltraPanel = false;
     public Transform panelCheck;
     float panelRadius = 0.2f;
-    public LayerMask whatIsPanel;
+    public LayerMask whatIsDefaultPanel;
+    public LayerMask whatIsBoostPanel;
+    public LayerMask whatIsBadPanel;
+    public LayerMask whatIsUltraPanel;
     Vector3 wallJumpVector;
 
     // Jump variables
     public float jumpForce = 500f;
-    public float jumpSpeed = 0f;      //Controls how high player will jump after panel jump
-    bool doubleJump = false;
-    int doubleJumpDelay = 0;
-    int doubleJumpDelayMax = 10;
+    public float defaultJump = 15f;      //Controls how high player will jump after panel jump
+    public float boostJump = 25f;
+    public float badJump = 1f;
+    public float ultraJump = 100f;
+    public int panelJumpX = 350;
 
     // Use this for initialization
     void Start ()
@@ -44,6 +51,7 @@ public class PlayerController : MonoBehaviour {
         highScore = PlayerPrefs.GetInt("highScore", highScore);
         scoreText.text = "Score: " + playerScore.ToString();
         highScoreText.text = "High Score: " + highScore.ToString();
+
         // Initialize player rigid body
         rb = GetComponent<Rigidbody2D>();
     }
@@ -55,44 +63,37 @@ public class PlayerController : MonoBehaviour {
         Collider2D groundCollider = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
         grounded = groundCollider != null;
 
-        // Checking if the player is on a panel
-        Collider2D panelCollider = Physics2D.OverlapCircle(panelCheck.position, panelRadius, whatIsPanel);
-        onPanel = panelCollider != null;
+        // Checking if the player is on a panel (default, boost, bad, or ultra)
+        Collider2D defaultPanelCollider = Physics2D.OverlapCircle(panelCheck.position, panelRadius, whatIsDefaultPanel);
+        onDefaultPanel = defaultPanelCollider != null;
+        Collider2D boostPanelCollider = Physics2D.OverlapCircle(panelCheck.position, panelRadius, whatIsBoostPanel);
+        onBoostPanel = boostPanelCollider != null;
+        Collider2D badPanelCollider = Physics2D.OverlapCircle(panelCheck.position, panelRadius, whatIsBadPanel);
+        onBadPanel = badPanelCollider != null;
+        Collider2D ultraPanelCollider = Physics2D.OverlapCircle(panelCheck.position, panelRadius, whatIsUltraPanel);
+        onUltraPanel = ultraPanelCollider != null;
 
+
+    }
+
+    void Update()
+    {
         if (grounded)
         {
             //anim.SetBool("Ground", true);
-            doubleJump = false;
         }
         //else
         //{
-            //anim.SetBool("Ground", false);
+        //anim.SetBool("Ground", false);
         //}
 
         //anim.SetFloat("vSpeed", rb.velocity.y);
 
         // Used for player movement keys
         float move = Input.GetAxis("Horizontal");
-
+        rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
         //anim.SetFloat("Speed", Mathf.Abs(move));
 
-        if (!doubleJump)
-        {
-            // Player movement
-            rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
-        }
-        else
-        {
-            // I don't fully understand what is going on here?
-            if (doubleJumpDelay > 0)
-            {
-                doubleJumpDelay--;
-            }
-            else
-            {
-                doubleJump = false;
-            }
-        }
         // calls Flip function when player is changing direction
         if (move > 0 && !facingRight)
         {
@@ -103,26 +104,20 @@ public class PlayerController : MonoBehaviour {
             Flip();
         }
 
+        // Jump mechanics
+        if (grounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+
         // Jump when on panel
-        if (onPanel)
+        if (onDefaultPanel || onBoostPanel || onBadPanel || onUltraPanel)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                // The 10 here needs to be variabalized
-                wallJumpVector = new Vector3((10 * (facingRight ? -1 : 1)), jumpSpeed, 0);
-                rb.velocity = wallJumpVector;
-                doubleJump = true;
-                doubleJumpDelay = doubleJumpDelayMax;
+                Jump();
             }
-        }
-    }
-
-    void Update()
-    {
-        if(grounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(new Vector2(0, jumpForce));
         }
 
         // Keeping track of the score
@@ -153,5 +148,44 @@ public class PlayerController : MonoBehaviour {
     {
         facingRight = !facingRight;
         transform.RotateAround(GetComponent<Renderer>().bounds.center, new Vector3(0, 1, 0), 180);
+    }
+
+    public int GetPlayerScore()
+    {
+        return playerScore;
+    }
+
+    // Controls player jump
+    void Jump()
+    {
+        if (grounded)
+        {
+            rb.AddForce(new Vector2(0, jumpForce));
+        }
+
+        if (onDefaultPanel)
+        {
+            wallJumpVector = new Vector3(0, defaultJump, 0);
+            rb.velocity = wallJumpVector;
+            rb.AddForce(new Vector3((panelJumpX * (facingRight ? -1 : 1)), 0, 0));
+        }
+        if (onBoostPanel)
+        {
+            wallJumpVector = new Vector3(0, boostJump, 0);
+            rb.velocity = wallJumpVector;
+            rb.AddForce(new Vector3((panelJumpX * (facingRight ? -1 : 1)), 0, 0));
+        }
+        if (onBadPanel)
+        {
+            wallJumpVector = new Vector3(0, badJump, 0);
+            rb.velocity = wallJumpVector;
+            rb.AddForce(new Vector3((panelJumpX * (facingRight ? -1 : 1)), 0, 0));
+        }
+        if (onUltraPanel)
+        {
+            wallJumpVector = new Vector3(0, ultraJump, 0);
+            rb.velocity = wallJumpVector;
+            rb.AddForce(new Vector3((panelJumpX * (facingRight ? -1 : 1)), 0, 0));
+        }
     }
 }

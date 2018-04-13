@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7f6004af3bd77bf46b3a00d45133ba28
-timeCreated: 1519352480
+timeCreated: 1522540911
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -79,14 +79,18 @@ TextureImporter:
       name: panel_0
       rect:
         serializedVersion: 2
-        x: 896
+        x: 897
         y: 523
-        width: 86
+        width: 85
         height: 231
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: -42.5, y: 115.5}
+        - {x: -42.5, y: -115.5}
+        - {x: 42.5, y: -115.5}
+        - {x: 42.5, y: 115.5}
       physicsShape: []
       tessellationDetail: 0
     outline: []
