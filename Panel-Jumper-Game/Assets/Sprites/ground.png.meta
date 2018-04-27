@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 36b29f171d6c12b4b8699a7c67b2a503
-timeCreated: 1519352507
+timeCreated: 1524623447
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -79,10 +79,10 @@ TextureImporter:
       name: ground_0
       rect:
         serializedVersion: 2
-        x: 287
-        y: 468
-        width: 1477
-        height: 196
+        x: 757
+        y: 514
+        width: 92
+        height: 447
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -36,7 +36,7 @@ public class PanelGeneration : MonoBehaviour
 
         // Creates space so panels cannot be overlapped vertically
         //panelSpace = defaultPanel.GetComponent<BoxCollider2D>().size.y;
-        panelSpace = 0.75f;
+        panelSpace = 1.90f; // changes distance?
 
         // Creates an initial randomly generated panel
         transform.position = new Vector3(Random.Range(-3.21f, 3.21f), transform.position.y, transform.position.z);

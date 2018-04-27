@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 10f;
     private bool facingRight = true;
 
+    Animator anim;
+
     // Score Variables
     public int playerScore = 0;
     private int highScore;
@@ -49,11 +51,16 @@ public class PlayerController : MonoBehaviour {
     {
         // Initialize scoring
         highScore = PlayerPrefs.GetInt("highScore", highScore);
-        scoreText.text = "Score: " + playerScore.ToString();
-        highScoreText.text = "High Score: " + highScore.ToString();
+        scoreText.text = playerScore.ToString();
+            //"Score: " + playerScore.ToString();
+        highScoreText.text = highScore.ToString();
+        //"High Score: " + highScore.ToString();
 
         // Initialize player rigid body
         rb = GetComponent<Rigidbody2D>();
+
+        // Initialize animations
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -73,26 +80,10 @@ public class PlayerController : MonoBehaviour {
         Collider2D ultraPanelCollider = Physics2D.OverlapCircle(panelCheck.position, panelRadius, whatIsUltraPanel);
         onUltraPanel = ultraPanelCollider != null;
 
-
-    }
-
-    void Update()
-    {
-        if (grounded)
-        {
-            //anim.SetBool("Ground", true);
-        }
-        //else
-        //{
-        //anim.SetBool("Ground", false);
-        //}
-
-        //anim.SetFloat("vSpeed", rb.velocity.y);
-
         // Used for player movement keys
         float move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
-        //anim.SetFloat("Speed", Mathf.Abs(move));
+        anim.SetFloat("speed", Mathf.Abs(move));
 
         // calls Flip function when player is changing direction
         if (move > 0 && !facingRight)
@@ -119,6 +110,26 @@ public class PlayerController : MonoBehaviour {
                 Jump();
             }
         }
+
+
+    }
+
+    void Update()
+    {
+        if (grounded)
+        {
+            //anim.SetBool("Ground", true);
+        }
+        //else
+        //{
+        //anim.SetBool("Ground", false);
+        //}
+
+        //anim.SetFloat("vSpeed", rb.velocity.y);
+
+        
+
+      
 
         // Keeping track of the score
         if ((int)(rb.transform.position.y * scoreMulti) > playerScore)
